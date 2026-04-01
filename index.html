@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Veterans Phone — Partner Briefing</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* ── RESET & BASE ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:#f0ede8;color:#1a1a18;line-height:1.6;}
+img{max-width:100%;}
+
+/* ── PASSWORD GATE ── */
+#gate{position:fixed;inset:0;background:#0e1015;display:flex;align-items:center;justify-content:center;z-index:9999;padding:24px;}
+#gate.hidden{display:none;}
+.gate-card{background:#181c28;border:0.5px solid rgba(255,255,255,0.09);border-radius:16px;padding:40px 36px;width:100%;max-width:380px;text-align:center;}
+.gate-logo{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#3a4460;margin-bottom:28px;}
+.gate-title{font-size:20px;font-weight:500;color:#dde2f0;margin-bottom:8px;}
+.gate-sub{font-size:13px;color:#4a5678;margin-bottom:28px;line-height:1.55;}
+.gate-input{width:100%;padding:13px 16px;background:#0e1015;border:0.5px solid rgba(255,255,255,0.12);border-radius:8px;color:#dde2f0;font-size:15px;text-align:center;letter-spacing:0.15em;outline:none;transition:border-color 0.2s;margin-bottom:14px;}
+.gate-input:focus{border-color:#1D9E75;}
+.gate-btn{width:100%;padding:13px;background:#1D9E75;border:none;border-radius:8px;color:white;font-size:14px;font-weight:500;cursor:pointer;transition:opacity 0.2s;}
+.gate-btn:hover{opacity:0.88;}
+.gate-err{font-size:12px;color:#E24B4A;margin-top:10px;min-height:18px;}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-between;padding:14px 24px;}
+.nav-brand{font-size:13px;font-weight:500;color:#1a1a18;}
+.nav-brand span{color:#1D9E75;}
+.nav-links{display:flex;gap:20px;}
+.nav-links a{font-size:12px;color:#5a5a54;text-decoration:none;transition:color 0.15s;}
+.nav-links a:hover{color:#1a1a18;}
+@media(max-width:560px){.nav-links{display:none;}}
+
+/* ── SECTIONS ── */
+section{padding:72px 24px;}
+.container{max-width:860px;margin:0 auto;}
+
+/* ── HERO ── */
+#hero{background:#0e1015;padding:100px 24px 80px;}
+.hero-eyebrow{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#2a6040;margin-bottom:18px;}
+.hero-title{font-size:clamp(32px,6vw,54px);font-weight:500;color:#dde2f0;line-height:1.1;margin-bottom:20px;}
+.hero-title em{color:#1D9E75;font-style:normal;}
+.hero-body{font-size:16px;color:#5a6880;line-height:1.7;max-width:560px;margin-bottom:36px;}
+.hero-cta{display:inline-block;padding:14px 28px;background:#1D9E75;border-radius:8px;color:white;font-size:14px;font-weight:500;text-decoration:none;transition:opacity 0.2s;}
+.hero-cta:hover{opacity:0.88;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:#0c1810;border:0.5px solid #1a3824;border-radius:20px;padding:8px 16px;font-size:12px;color:#3a7850;margin-bottom:36px;}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:#1D9E75;}
+
+/* ── PROBLEM ── */
+#problem{background:#ffffff;}
+.section-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#9a9a90;margin-bottom:14px;}
+.section-title{font-size:clamp(22px,4vw,32px);font-weight:500;color:#1a1a18;line-height:1.2;margin-bottom:20px;}
+.section-body{font-size:15px;color:#5a5a54;line-height:1.75;max-width:640px;}
+.section-body p{margin-bottom:1rem;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:36px;}
+.stat-card{background:#f5f3ef;border-radius:12px;padding:24px 20px;}
+.stat-num{font-size:28px;font-weight:500;color:#1D9E75;margin-bottom:6px;}
+.stat-label{font-size:13px;color:#5a5a54;line-height:1.45;}
+
+/* ── DEMO ── */
+#demo{background:#f0ede8;}
+.demo-wrap{display:grid;grid-template-columns:1fr;gap:32px;}
+@media(min-width:700px){.demo-wrap{grid-template-columns:240px 1fr;align-items:start;}}
+.phone-wrap{display:flex;justify-content:center;}
+.pframe{background:#12161e;border-radius:40px;padding:14px 10px;width:230px;border:1.5px solid #252a38;}
+.pnotch{width:64px;height:9px;background:#090b0f;border-radius:5px;margin:0 auto 10px;}
+.pscreen{border-radius:22px;overflow:hidden;height:410px;position:relative;transition:background 0.3s;}
+.pscreen.pdark{background:#0b0e15;}
+.pscreen.plight{background:#e8eaf0;}
+.phome{width:40px;height:5px;border-radius:3px;margin:10px auto 0;background:#252a38;}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;}
+.screen.active{display:flex;}
+
+/* phone internals */
+.pdark{--pb:#0b0e15;--ps:#111520;--ps2:#181c28;--pt1:#dde2f0;--pt2:#7a86a0;--pt3:#3a4460;--pacc:#1D9E75;--pbdr:#1e2438;--pbdr2:#252a40;}
+.plight{--pb:#e8eaf0;--ps:#ffffff;--ps2:#f0f2f8;--pt1:#1a1e2e;--pt2:#5a6080;--pt3:#9098b0;--pacc:#1D9E75;--pbdr:rgba(0,0,0,0.1);--pbdr2:rgba(0,0,0,0.15);}
+.psb{display:flex;justify-content:space-between;align-items:center;padding:9px 14px 3px;}
+.psb-time{font-size:12px;font-weight:500;color:var(--pt1);}
+.psb-right{display:flex;align-items:center;gap:6px;}
+.psb-dots{display:flex;gap:3px;}
+.sdot{width:5px;height:5px;border-radius:50%;background:var(--pacc);transition:background 0.3s;}
+.sdot.off{background:var(--pt3);}
+.pm-toggle{display:flex;align-items:center;gap:3px;cursor:pointer;background:var(--ps2);border:0.5px solid var(--pbdr);border-radius:10px;padding:3px 7px;}
+.pm-ico{font-size:10px;line-height:1;}
+.pm-lbl{font-size:9px;color:var(--pt3);letter-spacing:0.04em;}
+/* home */
+.s1-greet{display:flex;justify-content:space-between;align-items:flex-start;padding:4px 14px 8px;}
+.s1g-left .hello{font-size:9px;color:var(--pt3);text-transform:uppercase;letter-spacing:0.08em;}
+.s1g-left .name{font-size:16px;font-weight:500;color:var(--pt1);margin-top:1px;}
+.slp-btn{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:transparent;border:0.5px solid var(--pbdr2);border-radius:7px;padding:5px 7px;transition:all 0.2s;}
+.slp-btn.on{border-color:var(--pacc);}
+.slp-ico{font-size:12px;line-height:1;}
+.slp-lbl{font-size:8px;color:var(--pt3);text-transform:uppercase;letter-spacing:0.06em;}
+.slp-btn.on .slp-lbl{color:var(--pacc);}
+.s1-tiles{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 10px;transition:opacity 0.35s;}
+.s1-tiles.zzz{opacity:0.22;pointer-events:none;}
+.stile{border-radius:12px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.sti{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.stlbl{font-size:10px;color:var(--pt2);text-align:center;}
+.pdark .tc{background:#0c1c12;}.pdark .tc .sti{background:#1D9E75;}
+.pdark .tm{background:#0c1424;}.pdark .tm .sti{background:#378ADD;}
+.pdark .tn{background:#1a1500;}.pdark .tn .sti{background:#EF9F27;}
+.pdark .tv{background:#110d22;}.pdark .tv .sti{background:#7F77DD;}
+.plight .tc{background:#d0f0e4;}.plight .tc .sti{background:#1D9E75;}
+.plight .tm{background:#cce0f8;}.plight .tm .sti{background:#378ADD;}
+.plight .tn{background:#faf0d0;}.plight .tn .sti{background:#EF9F27;}
+.plight .tv{background:#e0daf8;}.plight .tv .sti{background:#7F77DD;}
+.s1-bou{padding:0 10px;margin-top:6px;transition:opacity 0.35s;}
+.s1-bou.zzz{opacity:0.22;}
+.bou-tile{border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;}
+.pdark .bou-tile{background:#0a1a14;}.plight .bou-tile{background:#d8f0e8;}
+.bou-logo{width:26px;height:26px;border-radius:7px;background:#1D9E75;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:white;flex-shrink:0;}
+.bou-info{flex:1;}
+.bou-name{font-size:11px;font-weight:500;color:var(--pt1);}
+.bou-bal{font-size:10px;color:var(--pacc);margin-top:1px;}
+.bou-arr{font-size:12px;color:var(--pt3);}
+.slp-overlay{display:none;flex-direction:column;align-items:center;justify-content:center;margin:6px 10px 0;background:var(--ps2);border-radius:12px;border:0.5px solid var(--pbdr);padding:14px;text-align:center;}
+.slp-overlay.show{display:flex;}
+.slp-ov-ico{font-size:20px;margin-bottom:4px;}
+.slp-ov-t{font-size:11px;color:var(--pt2);line-height:1.5;}
+.slp-ov-s{font-size:10px;color:var(--pt3);margin-top:3px;}
+.s1-cts{padding:8px 12px 0;transition:opacity 0.35s;}
+.s1-cts.zzz{opacity:0.22;}
+.cts-lbl{font-size:9px;color:var(--pt3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+.cts-row{display:flex;gap:6px;}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:white;}
+/* comms */
+.psh{padding:9px 13px 7px;border-bottom:0.5px solid var(--pbdr);background:var(--ps);}
+.psh-bk{font-size:9px;color:#3a80b8;margin-bottom:1px;}
+.psh-cn{font-size:12px;font-weight:500;color:var(--pt1);}
+.psh-cs{font-size:9px;color:var(--pt3);}
+.s2chat{flex:1;padding:8px;display:flex;flex-direction:column;gap:5px;overflow:hidden;background:var(--pb);}
+.s2tl{font-size:9px;color:var(--pt3);text-align:center;}
+.s2msg{max-width:82%;border-radius:11px;padding:6px 9px;font-size:11px;line-height:1.45;}
+.pdark .s2in{background:#141e2e;color:#8aaabb;align-self:flex-start;border-bottom-left-radius:2px;}
+.pdark .s2out{background:#0c3824;color:#70c090;align-self:flex-end;border-bottom-right-radius:2px;}
+.plight .s2in{background:#dde8f0;color:#3a5060;align-self:flex-start;border-bottom-left-radius:2px;}
+.plight .s2out{background:#1D9E75;color:#d0f5e8;align-self:flex-end;border-bottom-right-radius:2px;}
+.s2bar{background:var(--ps);border-top:0.5px solid var(--pbdr);padding:7px 9px;display:flex;gap:5px;align-items:center;}
+.s2inp{flex:1;background:var(--ps2);border-radius:13px;height:26px;border:none;}
+.s2snd{width:26px;height:26px;border-radius:50%;background:#1D9E75;border:none;flex-shrink:0;}
+/* content taps */
+.s3h{padding:9px 13px 7px;border-bottom:0.5px solid var(--pbdr);}
+.pdark .s3h{background:#0e0b00;}.plight .s3h{background:#faf4d0;}
+.s3ht{font-size:12px;font-weight:500;}
+.pdark .s3ht{color:#c8b84a;}.plight .s3ht{color:#7a6a00;}
+.s3hs{font-size:9px;margin-top:1px;}
+.pdark .s3hs{color:#504a18;}.plight .s3hs{color:#a09040;}
+.s3items{flex:1;padding:7px;display:flex;flex-direction:column;gap:5px;overflow:hidden;background:var(--pb);}
+.s3item{border-radius:9px;padding:8px 9px;border-left:2px solid transparent;}
+.pdark .s3item{background:#141000;}.plight .s3item{background:#f8f4e0;}
+.s3item.sp{border-left-color:#EF9F27;}
+.s3item.wx{border-left-color:#378ADD;}
+.s3item.cm{border-left-color:#1D9E75;}
+.s3src{font-size:9px;text-transform:uppercase;letter-spacing:0.06em;}
+.pdark .s3item.sp .s3src{color:#6a5018;}.plight .s3item.sp .s3src{color:#8a7020;}
+.pdark .s3item.wx .s3src{color:#284870;}.plight .s3item.wx .s3src{color:#285090;}
+.pdark .s3item.cm .s3src{color:#185830;}.plight .s3item.cm .s3src{color:#106830;}
+.s3hl{font-size:11px;line-height:1.35;margin-top:2px;font-weight:500;}
+.pdark .s3item.sp .s3hl{color:#c8a030;}.plight .s3item.sp .s3hl{color:#6a5010;}
+.pdark .s3item.wx .s3hl{color:#6898c8;}.plight .s3item.wx .s3hl{color:#1a4888;}
+.pdark .s3item.cm .s3hl{color:#60b080;}.plight .s3item.cm .s3hl{color:#0a6838;}
+.s3ago{font-size:9px;margin-top:2px;}
+.pdark .s3item.sp .s3ago{color:#38280a;}.plight .s3item.sp .s3ago{color:#c09840;}
+.pdark .s3item.wx .s3ago{color:#182838;}.plight .s3item.wx .s3ago{color:#4878b0;}
+.pdark .s3item.cm .s3ago{color:#10381a;}.plight .s3item.cm .s3ago{color:#40a060;}
+.s3end{font-size:9px;text-align:center;padding:2px 0;}
+.pdark .s3end{color:#28200a;}.plight .s3end{color:#c0a840;}
+/* trusted sources */
+.s4h{padding:9px 13px 7px;border-bottom:0.5px solid var(--pbdr);}
+.pdark .s4h{background:#0e0b1e;}.plight .s4h{background:#eeeaf8;}
+.s4ht{font-size:12px;font-weight:500;}
+.pdark .s4ht{color:#b0a8e0;}.plight .s4ht{color:#4a3aa0;}
+.s4hs{font-size:9px;margin-top:1px;}
+.pdark .s4hs{color:#484068;}.plight .s4hs{color:#8878c0;}
+.s4body{flex:1;padding:7px;display:flex;flex-direction:column;gap:5px;overflow:hidden;background:var(--pb);}
+.s4srch{border-radius:9px;padding:7px 9px;display:flex;align-items:center;gap:5px;}
+.pdark .s4srch{background:#181638;}.plight .s4srch{background:#e8e4f8;}
+.s4sri{width:10px;height:10px;border:1.5px solid #7F77DD;border-radius:50%;flex-shrink:0;}
+.s4st{font-size:10px;}
+.pdark .s4st{color:#484060;}.plight .s4st{color:#8070b8;}
+.s4alert{border-radius:9px;padding:8px 9px;border-left:2px solid #E24B4A;}
+.pdark .s4alert{background:#1c0808;}.plight .s4alert{background:#fce8e8;}
+.s4al{font-size:9px;color:#E24B4A;text-transform:uppercase;letter-spacing:0.06em;font-weight:500;}
+.s4at{font-size:10px;line-height:1.4;margin-top:2px;}
+.pdark .s4at{color:#a06060;}.plight .s4at{color:#803030;}
+.s4ver{border-radius:9px;padding:8px 9px;border-left:2px solid #1D9E75;}
+.pdark .s4ver{background:#081a10;}.plight .s4ver{background:#e0f5ea;}
+.s4vl{font-size:9px;color:#1D9E75;text-transform:uppercase;letter-spacing:0.06em;font-weight:500;}
+.s4vn{font-size:11px;margin-top:2px;font-weight:500;}
+.pdark .s4vn{color:#70b090;}.plight .s4vn{color:#0a5830;}
+.s4vb{display:flex;gap:3px;margin-top:3px;flex-wrap:wrap;}
+.s4b{font-size:8px;border-radius:3px;padding:1px 5px;}
+.pdark .s4b{color:#1D9E75;background:#061810;}.plight .s4b{color:#0a6838;background:#c0ecd4;}
+.s4ref{border-radius:9px;padding:8px 9px;}
+.pdark .s4ref{background:#141230;}.plight .s4ref{background:#eeeaf8;}
+.s4rl{font-size:9px;color:#7F77DD;text-transform:uppercase;letter-spacing:0.06em;font-weight:500;}
+.s4ris{display:flex;flex-direction:column;gap:3px;margin-top:4px;}
+.s4ri{font-size:10px;display:flex;align-items:center;gap:4px;}
+.pdark .s4ri{color:#7870a8;}.plight .s4ri{color:#5040a0;}
+.s4rd{width:3px;height:3px;border-radius:50%;background:#7F77DD;flex-shrink:0;}
+/* bank */
+.bou-screen{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--pb);}
+.bou-hdr{padding:9px 13px 7px;border-bottom:0.5px solid var(--pbdr);}
+.pdark .bou-hdr{background:#0a1410;}.plight .bou-hdr{background:#d8f0e4;}
+.bou-hdr-t{font-size:12px;font-weight:500;}
+.pdark .bou-hdr-t{color:#70c090;}.plight .bou-hdr-t{color:#0a5828;}
+.bou-hdr-s{font-size:9px;margin-top:1px;}
+.pdark .bou-hdr-s{color:#1a4828;}.plight .bou-hdr-s{color:#3a9858;}
+.bou-balance-card{margin:9px 9px 7px;border-radius:11px;padding:12px 13px;}
+.pdark .bou-balance-card{background:#0d2018;}.plight .bou-balance-card{background:#e8f8f0;}
+.bou-acc-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;}
+.pdark .bou-acc-lbl{color:#2a6040;}.plight .bou-acc-lbl{color:#5a9870;}
+.bou-acc-name{font-size:10px;margin-top:1px;}
+.pdark .bou-acc-name{color:#60a080;}.plight .bou-acc-name{color:#1a6038;}
+.bou-bal-lbl{font-size:9px;margin-top:8px;}
+.pdark .bou-bal-lbl{color:#2a6040;}.plight .bou-bal-lbl{color:#5a9870;}
+.bou-bal-num{font-size:22px;font-weight:500;margin-top:2px;}
+.pdark .bou-bal-num{color:#90e0b0;}.plight .bou-bal-num{color:#0a5830;}
+.bou-bal-sub{font-size:9px;margin-top:2px;}
+.pdark .bou-bal-sub{color:#2a6040;}.plight .bou-bal-sub{color:#5a9870;}
+.bou-txn-lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;padding:0 12px;margin-bottom:5px;}
+.pdark .bou-txn-lbl{color:#2a6040;}.plight .bou-txn-lbl{color:#5a9870;}
+.bou-txns{flex:1;padding:0 9px;display:flex;flex-direction:column;gap:4px;overflow:hidden;}
+.bou-txn{border-radius:9px;padding:8px 10px;display:flex;justify-content:space-between;align-items:flex-start;}
+.pdark .bou-txn{background:#0d1e14;}.plight .bou-txn{background:#eaf8f2;}
+.bou-txn-name{font-size:11px;font-weight:500;}
+.pdark .bou-txn-name{color:#80c8a0;}.plight .bou-txn-name{color:#0a5830;}
+.bou-txn-date{font-size:9px;margin-top:1px;}
+.pdark .bou-txn-date{color:#204830;}.plight .bou-txn-date{color:#60a878;}
+.bou-txn-amt{font-size:12px;font-weight:500;color:#5DCAA5;}
+.bou-txn.out .bou-txn-amt{color:#c07060;}
+.bou-btn-row{display:flex;gap:6px;padding:7px 9px;}
+.bou-btn{flex:1;border-radius:8px;padding:8px 0;text-align:center;font-size:10px;font-weight:500;border:0.5px solid var(--pbdr2);}
+.pdark .bou-btn{background:#0d2018;color:#5DCAA5;}.plight .bou-btn{background:#d0f0e4;color:#0a6838;}
+/* settings */
+.set-h{padding:9px 13px 7px;border-bottom:0.5px solid var(--pbdr);}
+.pdark .set-h{background:#181c28;}.plight .set-h{background:#f0f2f8;}
+.set-ht{font-size:12px;font-weight:500;color:var(--pt1);}
+.set-hs{font-size:9px;color:var(--pt3);margin-top:1px;}
+.set-body{flex:1;padding:8px;display:flex;flex-direction:column;gap:5px;overflow:hidden;background:var(--pb);}
+.set-section{border-radius:9px;overflow:hidden;border:0.5px solid var(--pbdr);}
+.set-sec-title{font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--pt3);padding:7px 10px 5px;}
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-top:0.5px solid var(--pbdr);}
+.pdark .set-row{background:#151a28;}.plight .set-row{background:#fafbff;}
+.set-row:first-of-type{border-top:none;}
+.set-rl{font-size:11px;font-weight:500;color:var(--pt1);}
+.set-rs{font-size:9px;color:var(--pt3);margin-top:1px;}
+.set-tog{width:30px;height:17px;border-radius:9px;position:relative;cursor:pointer;flex-shrink:0;transition:background 0.2s;}
+.set-tog.on{background:#1D9E75;}.set-tog.off{background:var(--pbdr2);}
+.set-thumb{width:13px;height:13px;background:white;border-radius:50%;position:absolute;top:2px;transition:left 0.2s;}
+.set-tog.on .set-thumb{left:15px;}.set-tog.off .set-thumb{left:2px;}
+.set-val{font-size:10px;color:var(--pt2);}
+.set-note{font-size:9px;color:var(--pt3);padding:6px 10px 0;line-height:1.5;}
+
+/* ── DEMO TABS ── */
+.tabs-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:10px;}
+.tabs-scroll::-webkit-scrollbar{display:none;}
+.tabs{display:flex;gap:6px;min-width:max-content;padding:2px 0 12px;}
+.tab{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;border:0.5px solid rgba(0,0,0,0.1);background:#fff;cursor:pointer;white-space:nowrap;transition:all 0.15s;font-size:13px;font-weight:500;color:#1a1a18;}
+.tab:hover{background:#f0ede8;}
+.tab.active{background:#e6f7f1;border-color:#1D9E75;color:#0a6b4e;}
+.tnum{font-size:10px;color:inherit;opacity:0.6;}
+.det{padding:6px 0 0;}
+.det-title{font-size:18px;font-weight:500;color:#1a1a18;margin-bottom:8px;line-height:1.3;}
+.det-body{font-size:14px;color:#5a5a54;line-height:1.65;margin-bottom:12px;}
+.det-pts{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.det-pts li{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5a5a54;line-height:1.5;}
+.pm{width:5px;height:5px;border-radius:50%;background:#1D9E75;margin-top:8px;flex-shrink:0;}
+.pnote{background:#f5f3ef;border-radius:8px;border-left:2px solid #1D9E75;padding:12px 14px;font-size:13px;color:#5a5a54;line-height:1.55;}
+.pnote strong{font-weight:500;color:#1a1a18;}
+
+/* ── LAYERS SECTION ── */
+#layers{background:#ffffff;}
+.layer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-top:36px;}
+.layer-card{background:#f5f3ef;border-radius:12px;padding:24px 20px;}
+.layer-num{font-size:11px;letter-spacing:0.1em;color:#9a9a90;margin-bottom:10px;}
+.layer-name{font-size:16px;font-weight:500;color:#1a1a18;margin-bottom:8px;}
+.layer-desc{font-size:13px;color:#5a5a54;line-height:1.6;}
+.layer-accent{display:inline-block;width:24px;height:3px;border-radius:2px;margin-bottom:14px;}
+
+/* ── PARTNERSHIP ── */
+#partnership{background:#0e1015;}
+#partnership .section-label{color:#2a6040;}
+#partnership .section-title{color:#dde2f0;}
+#partnership .section-body{color:#5a6880;}
+.partner-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:36px;}
+.partner-card{background:#181c28;border:0.5px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px 20px;}
+.partner-name{font-size:14px;font-weight:500;color:#dde2f0;margin-bottom:8px;}
+.partner-role{font-size:13px;color:#4a5878;line-height:1.6;}
+
+/* ── FUNDING ── */
+#funding{background:#f5f3ef;}
+.funding-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:32px;}
+.funding-card{background:#ffffff;border-radius:12px;padding:20px 18px;border:0.5px solid rgba(0,0,0,0.06);}
+.funding-source{font-size:11px;letter-spacing:0.09em;text-transform:uppercase;color:#9a9a90;margin-bottom:8px;}
+.funding-amount{font-size:20px;font-weight:500;color:#1D9E75;margin-bottom:6px;}
+.funding-desc{font-size:13px;color:#5a5a54;line-height:1.55;}
+
+/* ── ASK ── */
+#ask{background:#1D9E75;text-align:center;padding:80px 24px;}
+.ask-title{font-size:clamp(24px,4vw,36px);font-weight:500;color:white;margin-bottom:16px;line-height:1.2;}
+.ask-body{font-size:15px;color:rgba(255,255,255,0.75);max-width:520px;margin:0 auto 32px;line-height:1.7;}
+.ask-contact{display:inline-block;padding:14px 32px;background:white;border-radius:8px;color:#0a6b4e;font-size:14px;font-weight:500;text-decoration:none;transition:opacity 0.2s;}
+.ask-contact:hover{opacity:0.9;}
+
+/* ── FOOTER ── */
+footer{background:#0e1015;padding:32px 24px;text-align:center;}
+.footer-brand{font-size:13px;color:#3a4460;margin-bottom:6px;}
+.footer-url{font-size:12px;color:#2a6040;}
+
+/* ── DIVIDER ── */
+.section-divider{width:40px;height:3px;border-radius:2px;background:#1D9E75;margin-bottom:20px;}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-logo">The Everyday Technologist</div>
+    <div class="gate-title">Veterans Phone</div>
+    <div class="gate-sub">Partner briefing — confidential.<br>Enter your access code to continue.</div>
+    <input class="gate-input" type="password" id="gate-pw" placeholder="••••••••" maxlength="20" autocomplete="off">
+    <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    <div class="gate-err" id="gate-err"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Veterans <span>Phone</span></div>
+  <div class="nav-links">
+    <a href="#problem">The problem</a>
+    <a href="#demo">The demo</a>
+    <a href="#layers">Four layers</a>
+    <a href="#partnership">Partnership</a>
+    <a href="#funding">Funding</a>
+    <a href="#ask">Get in touch</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-tag"><div class="hero-tag-dot"></div>Confidential — partner briefing — March 2026</div>
+    <div class="hero-eyebrow">The Everyday Technologist × UTAS × Industry Partner</div>
+    <h1 class="hero-title">A phone that works for the<br><em>person holding it</em></h1>
+    <p class="hero-body">The Veterans Phone is a proposed Android launcher application — a replacement home screen experience designed around the user's needs, not a platform's commercial interests. Built with veterans. Built for calm.</p>
+    <a href="#demo" class="hero-cta">Explore the demo →</a>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="section-divider"></div>
+    <div class="section-label">The problem</div>
+    <h2 class="section-title">The space between overwhelmed<br>and disconnected doesn't exist yet</h2>
+    <div class="section-body">
+      <p>Adults now spend over seven hours a day consuming screen-based media. The information is not just more — it is continuous, personalised by algorithm to provoke engagement, and it spans every domain of daily life simultaneously.</p>
+      <p>For veterans managing hypervigilance and trauma, this environment is not merely uncomfortable. At the Veterans Hub in Hobart, we see veterans choosing to abandon smartphones entirely — not because they are technophobic, but because nobody has given them a middle option.</p>
+      <p><strong>That middle option is what this project builds.</strong></p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num">7+ hrs</div><div class="stat-label">Average daily screen media consumption per adult</div></div>
+      <div class="stat-card"><div class="stat-num">39%</div><div class="stat-label">Of people worldwide actively avoiding news — up from 29% in 2017</div></div>
+      <div class="stat-card"><div class="stat-num">$2.03B</div><div class="stat-label">Reported scam losses in Australia in 2024 — veterans disproportionately targeted</div></div>
+      <div class="stat-card"><div class="stat-num">$192M</div><div class="stat-label">Lost to investment scams alone in 2024 — the primary vehicle used against lump-sum recipients</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section id="demo">
+  <div class="container">
+    <div class="section-divider"></div>
+    <div class="section-label">Interactive demo</div>
+    <h2 class="section-title">The four-layer architecture</h2>
+    <p style="font-size:15px;color:#5a5a54;margin-bottom:28px;line-height:1.65;">Select a tab to explore each layer. Toggle the phone's display mode using the button in the status bar.</p>
+
+    <div class="demo-wrap">
+      <div>
+        <div class="phone-wrap">
+          <div class="pframe">
+            <div class="pnotch"></div>
+            <div class="pscreen pdark" id="pscr">
+
+              <!-- HOME -->
+              <div class="screen active" id="sc1">
+                <div class="psb"><span class="psb-time">9:14</span><div class="psb-right"><div class="pm-toggle" onclick="togglePhoneMode()"><span class="pm-ico" id="pm-ico1">🌙</span><span class="pm-lbl" id="pm-lbl1">Dark</span></div><div class="psb-dots"><div class="sdot" id="d1"></div><div class="sdot" id="d2"></div><div class="sdot" id="d3"></div></div></div></div>
+                <div class="s1-greet">
+                  <div class="s1g-left"><div class="hello">Good morning</div><div class="name">Peter</div></div>
+                  <button class="slp-btn" id="slpbtn" onclick="toggleSleep()"><span class="slp-ico">🌙</span><span class="slp-lbl" id="slplbl">Sleep</span></button>
+                </div>
+                <div class="s1-tiles" id="s1tiles">
+                  <div class="stile tc"><div class="sti"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 1h2.5l1.2 3.2L4.2 5.5c.8 1.6 2 2.8 3.6 3.6l1.3-1.5L12 8.8V11c0 .8-.8 1.5-1.6 1.3C3 10.8.8 8 .7 3.6.5 2.8 1.2 2 2 1z" fill="white" opacity="0.9"/></svg></div><div class="stlbl">Call</div></div>
+                  <div class="stile tm"><div class="sti"><svg width="14" height="12" viewBox="0 0 14 12" fill="none"><rect x="1" y="1" width="12" height="8" rx="2.5" stroke="white" stroke-width="1.4" fill="none" opacity="0.9"/><path d="M3 11l1.8-2h3" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.9"/></svg></div><div class="stlbl">Messages</div></div>
+                  <div class="stile tn"><div class="sti"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2" width="11" height="1.4" rx="0.7" fill="white" opacity="0.9"/><rect x="1" y="5.8" width="7" height="1.4" rx="0.7" fill="white" opacity="0.9"/><rect x="1" y="9.6" width="9" height="1.4" rx="0.7" fill="white" opacity="0.9"/></svg></div><div class="stlbl">My news</div></div>
+                  <div class="stile tv"><div class="sti"><svg width="13" height="15" viewBox="0 0 13 15" fill="none"><path d="M6.5 1L1 3.5V8c0 3 2 5.2 5.5 6.5C10.5 13.2 12.5 11 12.5 8V3.5L6.5 1z" stroke="white" stroke-width="1.4" fill="none" opacity="0.9"/><path d="M4 7.5l2 2 3.5-3.5" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.9"/></svg></div><div class="stlbl">Verify</div></div>
+                </div>
+                <div class="slp-overlay" id="slpov"><div class="slp-ov-ico">🌙</div><div class="slp-ov-t">Quiet mode on</div><div class="slp-ov-s">Alerts paused until 7:00 am<br>Calls and messages still through</div></div>
+                <div class="s1-bou" id="s1bou"><div class="bou-tile"><div class="bou-logo">B</div><div class="bou-info"><div class="bou-name">Bank of Us</div><div class="bou-bal">$4,218.40 available</div></div><div class="bou-arr">›</div></div></div>
+                <div class="s1-cts" id="s1cts"><div class="cts-lbl">Quick contacts</div><div class="cts-row"><div class="av" style="background:#1D9E75;">S</div><div class="av" style="background:#378ADD;">D</div><div class="av" style="background:#7F77DD;">J</div></div></div>
+              </div>
+
+              <!-- COMMS -->
+              <div class="screen" id="sc2">
+                <div class="psb"><span class="psb-time">9:14</span><div class="psb-right"><div class="pm-toggle" onclick="togglePhoneMode()"><span class="pm-ico" id="pm-ico2">🌙</span><span class="pm-lbl" id="pm-lbl2">Dark</span></div></div></div>
+                <div class="psh"><div class="psh-bk">← Messages</div><div class="psh-cn">Dave — RSL mate</div><div class="psh-cs">Mobile · always available</div></div>
+                <div class="s2chat">
+                  <div class="s2tl">Today, 8:31 am</div>
+                  <div class="s2msg s2in">You coming to the BBQ Friday night?</div>
+                  <div class="s2msg s2out">Wouldn't miss it. What should I bring?</div>
+                  <div class="s2msg s2in">Just yourself mate. We've got everything.</div>
+                  <div class="s2msg s2out">Righto. Around 6?</div>
+                  <div class="s2msg s2in">Yeah 6 is good. See you then cobber.</div>
+                </div>
+                <div class="s2bar"><div class="s2inp"></div><div class="s2snd"></div></div>
+              </div>
+
+              <!-- CONTENT TAPS -->
+              <div class="screen" id="sc3">
+                <div class="psb"><span class="psb-time">9:14</span><div class="psb-right"><div class="pm-toggle" onclick="togglePhoneMode()"><span class="pm-ico" id="pm-ico3">🌙</span><span class="pm-lbl" id="pm-lbl3">Dark</span></div></div></div>
+                <div class="s3h"><div class="s3ht">My news</div><div class="s3hs">Your sources only · updated once today</div></div>
+                <div class="s3items">
+                  <div class="s3item sp"><div class="s3src">AFL · Round 4</div><div class="s3hl">Hawks 14.8 (92) def Eagles 11.6 (72)</div><div class="s3ago">Last night</div></div>
+                  <div class="s3item wx"><div class="s3src">Bureau of Meteorology · Hobart</div><div class="s3hl">Today 13° showers clearing · Tomorrow 16° sunny</div><div class="s3ago">Updated 6:00 am</div></div>
+                  <div class="s3item cm"><div class="s3src">Veterans Hub · Community</div><div class="s3hl">Bruny Island fishing trip — Sat 12 Apr · 3 spots left</div><div class="s3ago">Posted yesterday</div></div>
+                  <div class="s3end">— that's all for today —</div>
+                </div>
+              </div>
+
+              <!-- TRUSTED SOURCES -->
+              <div class="screen" id="sc4">
+                <div class="psb"><span class="psb-time">9:14</span><div class="psb-right"><div class="pm-toggle" onclick="togglePhoneMode()"><span class="pm-ico" id="pm-ico4">🌙</span><span class="pm-lbl" id="pm-lbl4">Dark</span></div></div></div>
+                <div class="s4h"><div class="s4ht">Trusted sources</div><div class="s4hs">Verify before you act</div></div>
+                <div class="s4body">
+                  <div class="s4srch"><div class="s4sri"></div><div class="s4st">Check a provider or offer...</div></div>
+                  <div class="s4alert"><div class="s4al">DVA alert · Active scam</div><div class="s4at">Callers posing as DVA are telling veterans their pension is suspended. DVA will never ask for banking details by phone.</div></div>
+                  <div class="s4ver"><div class="s4vl">Verified provider</div><div class="s4vn">Peninsula Financial Planning</div><div class="s4vb"><span class="s4b">ASIC</span><span class="s4b">DVA approved</span><span class="s4b">AHPRA</span></div></div>
+                  <div class="s4ref"><div class="s4rl">DVA referrals</div><div class="s4ris"><div class="s4ri"><div class="s4rd"></div>Veterans Hub counselling</div><div class="s4ri"><div class="s4rd"></div>Legal Aid Tasmania</div><div class="s4ri"><div class="s4rd"></div>Open Arms — 1800 011 046</div></div></div>
+                </div>
+              </div>
+
+              <!-- BANK OF US -->
+              <div class="screen" id="sc5">
+                <div class="psb"><span class="psb-time">9:14</span><div class="psb-right"><div class="pm-toggle" onclick="togglePhoneMode()"><span class="pm-ico" id="pm-ico5">🌙</span><span class="pm-lbl" id="pm-lbl5">Dark</span></div></div></div>
+                <div class="bou-screen">
+                  <div class="bou-hdr"><div class="bou-hdr-t">Bank of Us</div><div class="bou-hdr-s">Everyday account · BSB 812 170</div></div>
+                  <div class="bou-balance-card">
+                    <div class="bou-acc-lbl">Available balance</div>
+                    <div class="bou-acc-name">Peter's everyday account</div>
+                    <div class="bou-bal-lbl">Current balance</div>
+                    <div class="bou-bal-num">$4,218.40</div>
+                    <div class="bou-bal-sub">DVA payment received 1 Apr — $1,847.20</div>
+                  </div>
+                  <div class="bou-txn-lbl">Recent transactions</div>
+                  <div class="bou-txns">
+                    <div class="bou-txn"><div><div class="bou-txn-name">DVA — Disability pension</div><div class="bou-txn-date">1 Apr 2026</div></div><div class="bou-txn-amt">+$1,847.20</div></div>
+                    <div class="bou-txn out"><div><div class="bou-txn-name">Coles Hobart</div><div class="bou-txn-date">31 Mar 2026</div></div><div class="bou-txn-amt">−$84.60</div></div>
+                    <div class="bou-txn out"><div><div class="bou-txn-name">Ampol Kingston</div><div class="bou-txn-date">29 Mar 2026</div></div><div class="bou-txn-amt">−$78.20</div></div>
+                    <div class="bou-txn"><div><div class="bou-txn-name">DVA — Health reimbursement</div><div class="bou-txn-date">27 Mar 2026</div></div><div class="bou-txn-amt">+$312.00</div></div>
+                  </div>
+                  <div class="bou-btn-row"><div class="bou-btn">Transfer</div><div class="bou-btn">Pay anyone</div></div>
+                </div>
+              </div>
+
+              <!-- SETTINGS -->
+              <div class="screen" id="sc6">
+                <div class="psb"><span class="psb-time">9:14</span><div class="psb-right"><div class="pm-toggle" onclick="togglePhoneMode()"><span class="pm-ico" id="pm-ico6">🌙</span><span class="pm-lbl" id="pm-lbl6">Dark</span></div></div></div>
+                <div class="set-h"><div class="set-ht">Settings</div><div class="set-hs">Just the essentials</div></div>
+                <div class="set-body">
+                  <div class="set-section">
+                    <div class="set-sec-title">Display</div>
+                    <div class="set-row"><div><div class="set-rl">Dark mode</div><div class="set-rs">Easier on the eyes at night</div></div><div class="set-tog on" id="settog" onclick="togglePhoneMode()"><div class="set-thumb"></div></div></div>
+                    <div class="set-row"><div><div class="set-rl">Large text</div><div class="set-rs">Increase font size</div></div><div class="set-tog off"><div class="set-thumb"></div></div></div>
+                  </div>
+                  <div class="set-section">
+                    <div class="set-sec-title">My news sources</div>
+                    <div class="set-row"><div><div class="set-rl">AFL scores</div></div><div class="set-tog on"><div class="set-thumb"></div></div></div>
+                    <div class="set-row"><div><div class="set-rl">Weather — Hobart</div></div><div class="set-tog on"><div class="set-thumb"></div></div></div>
+                    <div class="set-row"><div><div class="set-rl">Veterans Hub community</div></div><div class="set-tog on"><div class="set-thumb"></div></div></div>
+                  </div>
+                  <div class="set-section">
+                    <div class="set-sec-title">Sleep mode</div>
+                    <div class="set-row"><div><div class="set-rl">Wake time</div><div class="set-rs">Alerts resume at</div></div><div class="set-val">7:00 am</div></div>
+                  </div>
+                  <div class="set-note">To add or remove features, ask your Curator.</div>
+                </div>
+              </div>
+
+            </div><!-- /pscreen -->
+            <div class="phome"></div>
+          </div><!-- /pframe -->
+        </div><!-- /phone-wrap -->
+
+        <div class="tabs-scroll">
+          <div class="tabs">
+            <div class="tab active" data-layer="1"><span class="tnum">01</span> Home</div>
+            <div class="tab" data-layer="2"><span class="tnum">02</span> Communication</div>
+            <div class="tab" data-layer="3"><span class="tnum">03</span> Content taps</div>
+            <div class="tab" data-layer="4"><span class="tnum">04</span> Trusted sources</div>
+            <div class="tab" data-layer="5"><span class="tnum">05</span> Bank of Us</div>
+            <div class="tab" data-layer="6"><span class="tnum">06</span> Settings</div>
+          </div>
+        </div>
+      </div><!-- /left col -->
+
+      <div class="det" id="det"></div>
+    </div><!-- /demo-wrap -->
+  </div>
+</section>
+
+<!-- FOUR LAYERS -->
+<section id="layers">
+  <div class="container">
+    <div class="section-divider"></div>
+    <div class="section-label">Architecture</div>
+    <h2 class="section-title">Four layers. One designed experience.</h2>
+    <p class="section-body">Not separate tools requiring separate decisions. One environment, built around the person and their actual needs.</p>
+    <div class="layer-grid">
+      <div class="layer-card"><div class="layer-accent" style="background:#1D9E75;"></div><div class="layer-num">Layer 01</div><div class="layer-name">UX</div><div class="layer-desc">A calm, clear, uncluttered home screen. Large icons. High contrast. Nothing designed to provoke anxiety or reward compulsive checking.</div></div>
+      <div class="layer-card"><div class="layer-accent" style="background:#378ADD;"></div><div class="layer-num">Layer 02</div><div class="layer-name">Communication</div><div class="layer-desc">Always on. Phone, messages, and chosen contacts are never restricted. Connection to people is the foundation. Only the flood is managed.</div></div>
+      <div class="layer-card"><div class="layer-accent" style="background:#EF9F27;"></div><div class="layer-num">Layer 03</div><div class="layer-name">Content taps</div><div class="layer-desc">Configurable subscriptions the user sets once. DVA updates. Weather. AFL scores. Veterans Hub community. Nothing they didn't choose. No algorithm.</div></div>
+      <div class="layer-card"><div class="layer-accent" style="background:#7F77DD;"></div><div class="layer-num">Layer 04</div><div class="layer-name">Trusted sources</div><div class="layer-desc">A verification layer anchored by DVA as Digital Mainstreet. Check a provider before acting. Real-time scam alerts. DVA-endorsed referrals first.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERSHIP -->
+<section id="partnership">
+  <div class="container">
+    <div class="section-divider"></div>
+    <div class="section-label">The partnership</div>
+    <h2 class="section-title">Three partners. One proof of concept.</h2>
+    <p class="section-body">This project requires three partners working together — each bringing something the others cannot.</p>
+    <div class="partner-grid">
+      <div class="partner-card"><div class="partner-name">The Everyday Technologist</div><div class="partner-role">Problem definition. Community cohort. Published evidence framework. A public communication platform to translate findings for general audiences.</div></div>
+      <div class="partner-card"><div class="partner-name">University of Tasmania — SET</div><div class="partner-role">Research infrastructure. Academic rigour. Developer capacity. Publication pathway. HDR student opportunities across HCI, digital health and cybersecurity.</div></div>
+      <div class="partner-card"><div class="partner-name">Industry Partner</div><div class="partner-role">Technical infrastructure. Platform access. Commercial pathway. The co-investment that unlocks ARC Linkage Grant funding for the full research program.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNDING -->
+<section id="funding">
+  <div class="container">
+    <div class="section-divider"></div>
+    <div class="section-label">Funding landscape</div>
+    <h2 class="section-title">The money is available. The project is the fit.</h2>
+    <p class="section-body">Multiple funding streams are aligned. Each requires a different readiness level — the partnership structure activates them in sequence.</p>
+    <div class="funding-grid">
+      <div class="funding-card"><div class="funding-source">Ian Potter Foundation</div><div class="funding-amount">$100K+</div><div class="funding-desc">Community health grants opening May 2026. Funds Phase 1 discovery research. Builds the evidence base for MRFF.</div></div>
+      <div class="funding-card"><div class="funding-source">MRFF — Digital Mental Health</div><div class="funding-amount">$135M</div><div class="funding-desc">Available to 2028. Veterans named priority population. Co-design methodology maps precisely to stated criteria.</div></div>
+      <div class="funding-card"><div class="funding-source">ARC Linkage Grant</div><div class="funding-amount">Confirmed on partner</div><div class="funding-desc">Designed for university-industry collaborative research. Accessible once an industry partner is confirmed.</div></div>
+      <div class="funding-card"><div class="funding-source">DVA Community Wellbeing</div><div class="funding-amount">Direct pathway</div><div class="funding-desc">DVA has stated its intention to protect veterans from scams. The Trusted Sources layer gives them the infrastructure to do it.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ASK -->
+<section id="ask">
+  <div class="container">
+    <h2 class="ask-title">The ask is simple.<br>A conversation first.</h2>
+    <p class="ask-body">An initial discussion to explore alignment, identify where your organisation's capabilities and interests map to the project, and map a joint pathway to grant application. No commitment required at this stage.</p>
+    <a href="https://everydaytech.com.au/contact" class="ask-contact">Get in touch — everydaytech.com.au</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">The Everyday Technologist — Hobart, Tasmania — March 2026</div>
+  <div class="footer-url">everydaytech.com.au</div>
+</footer>
+
+<script>
+// ── PASSWORD ──
+const PW='TET1234';
+function checkPassword(){
+  const v=document.getElementById('gate-pw').value;
+  if(v===PW){
+    document.getElementById('gate').classList.add('hidden');
+    sessionStorage.setItem('vp_auth','1');
+  } else {
+    document.getElementById('gate-err').textContent='Incorrect access code. Please try again.';
+    document.getElementById('gate-pw').value='';
+    document.getElementById('gate-pw').focus();
+  }
+}
+document.getElementById('gate-pw').addEventListener('keydown',function(e){if(e.key==='Enter')checkPassword();});
+if(sessionStorage.getItem('vp_auth')==='1'){document.getElementById('gate').classList.add('hidden');}
+
+// ── DEMO DATA ──
+const D={
+  1:{title:'A home screen built for calm',body:'Everything visible is there because Peter chose it. The dark/light toggle in the status bar is an accessibility control — not buried in a menu. Sleep mode quiets all alerts with one tap, without cutting off calls or messages from trusted people.',pts:['Large tiles, high contrast, key contacts immediately visible','Bank of Us balance visible at a glance — no need to open a separate app','Sleep mode is reversible, simple, and never isolates the veteran from people'],note:'<strong>For industry partners:</strong> Built on Android\'s open launcher architecture. Ships as a standard APK. No platform negotiation required.'},
+  2:{title:'Communication is never restricted',body:'Connection to people the veteran trusts is the foundation. Phone, SMS, and any messaging app the veteran designates are always on — regardless of sleep mode or any other setting. The flood is managed. Human connection is never touched.',pts:['Designated contacts surface on the home screen for one-tap access','No restrictions, no timers, no friction on calls or messages','Curator pre-loads trusted contacts during initial setup'],note:'<strong>For industry partners:</strong> Standard Android telephony and messaging APIs. No proprietary stack required.'},
+  3:{title:'The news the veteran chose — nothing else',body:'Three sources. Updated once. When they\'re read, they\'re done. No algorithm. No infinite scroll. No content Peter didn\'t choose. The Veterans Hub community post sits alongside sport and weather — local, human, relevant.',pts:['AFL scores, Hobart weather, Veterans Hub community posts','Content drawn from structured APIs published by trusted providers','Defaults are calm — opt into more, never fight to opt out of less'],note:'<strong>For industry partners:</strong> The key integration point. Telcos, digital health platforms, and content aggregators each have a natural role in the API infrastructure feeding these taps.'},
+  4:{title:'Verify before you act',body:'DVA as Digital Mainstreet. A veteran can check whether a financial adviser, health provider, or benefits consultant is legitimate — before money moves or personal information is shared. Scam alerts surface in plain language, at the right moment.',pts:['Real-time check against ASIC, AHPRA, and DVA approved provider registers','DVA pension suspension scam alert — a documented current pattern','DVA-endorsed referrals surface first, including Open Arms 1800 011 046'],note:'<strong>For industry partners:</strong> Strongest regulatory alignment with Australia\'s Scams Prevention Framework and Digital Duty of Care. Clearest co-funding pathway with DVA and the National Anti-Scam Centre.'},
+  5:{title:'Banking — clear, trusted, connected to DVA',body:'Bank of Us is Tasmania\'s community-owned bank. DVA payments appear immediately and are clearly labelled. The veteran can see their balance and recent transactions without leaving the Veterans Phone environment — no algorithm, no upsell, no noise.',pts:['DVA disability pension and health reimbursements clearly identified','Balance visible on the home screen tile — no app-switching required','Transfer and pay-anyone functions accessible without navigating away'],note:'<strong>For industry partners:</strong> The Bank of Us integration demonstrates the partner model — a Tasmanian institution with aligned community values, providing trusted financial infrastructure within the Veterans Phone environment.'},
+  6:{title:'Settings — just enough, nothing more',body:'Deliberately limited. Display, news sources, and sleep wake time. That\'s it. Being overwhelmed by configuration options defeats the purpose. More advanced changes go through the Curator — a trusted human who holds the experience stable.',pts:['Dark/light mode toggle for accessibility — not buried in a menu','News sources on/off — choose your three, no more','\'Ask your Curator\' — the human layer is explicitly part of the design'],note:'<strong>For industry partners:</strong> The constrained settings model is itself a design argument — that calm, purposeful technology doesn\'t need to offer everything. This is the point of difference from every existing phone experience.'}
+};
+
+function renderDet(l){
+  const d=D[l];
+  document.getElementById('det').innerHTML='<div class="det-title">'+d.title+'</div><div class="det-body">'+d.body+'</div><ul class="det-pts">'+d.pts.map(p=>'<li><span class="pm"></span>'+p+'</li>').join('')+'</ul><div class="pnote">'+d.note+'</div>';
+}
+
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',function(){
+    const l=this.dataset.layer;
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('sc'+l).classList.add('active');
+    renderDet(l);
+  });
+});
+
+// ── SLEEP MODE ──
+let slp=false;
+function toggleSleep(){
+  slp=!slp;
+  document.getElementById('slpbtn').classList.toggle('on',slp);
+  document.getElementById('s1tiles').classList.toggle('zzz',slp);
+  document.getElementById('s1cts').classList.toggle('zzz',slp);
+  document.getElementById('s1bou').classList.toggle('zzz',slp);
+  document.getElementById('slpov').classList.toggle('show',slp);
+  document.getElementById('slplbl').textContent=slp?'Wake':'Sleep';
+  ['d1','d2','d3'].forEach(id=>document.getElementById(id).classList.toggle('off',slp));
+}
+
+// ── PHONE LIGHT/DARK MODE ──
+let dark=true;
+function togglePhoneMode(){
+  dark=!dark;
+  const ps=document.getElementById('pscr');
+  ps.className='pscreen '+(dark?'pdark':'plight');
+  const ico=dark?'🌙':'☀️';
+  const lbl=dark?'Dark':'Light';
+  for(let i=1;i<=6;i++){
+    const ei=document.getElementById('pm-ico'+i);
+    const el=document.getElementById('pm-lbl'+i);
+    if(ei)ei.textContent=ico;
+    if(el)el.textContent=lbl;
+  }
+  const st=document.getElementById('settog');
+  if(st){st.className='set-tog '+(dark?'on':'off');}
+}
+
+renderDet(1);
+</script>
+</body>
+</html>
