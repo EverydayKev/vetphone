@@ -8,7 +8,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --green:#1B6B35;--green-lt:#EAF3EC;--green-dk:#124924;
+  --brand:#C0E0E0;--brand-lt:#EAF6F6;--brand-dk:#123838;--brand-dk2:#0B2A2A;
   --yellow:#EDB820;--yellow-lt:#FFF8E1;
   --txt:#1A1A1A;--txt2:#555;--white:#fff;
   --border:#DDE8DD;--section-alt:#F4F7F4;
@@ -21,7 +21,7 @@ img{max-width:100%;}
 
 /* ── PASSWORD GATE ── */
 #gate{
-  position:fixed;inset:0;background:var(--green-dk);
+  position:fixed;inset:0;background:var(--brand-dk);
   display:flex;align-items:center;justify-content:center;
   z-index:1000;padding:24px;
 }
@@ -29,7 +29,7 @@ img{max-width:100%;}
   background:#fff;border-radius:16px;padding:48px 40px;
   max-width:360px;width:100%;text-align:center;
 }
-.gate-wordmark{font-family:var(--serif);font-size:22px;color:var(--green);margin-bottom:8px;}
+.gate-wordmark{font-family:var(--serif);font-size:22px;color:var(--brand-dk);margin-bottom:8px;}
 .gate-sub{font-size:14px;color:var(--txt2);margin-bottom:32px;}
 .gate-input{
   width:100%;padding:12px 16px;border:1.5px solid var(--border);
@@ -37,14 +37,14 @@ img{max-width:100%;}
   color:var(--txt);outline:none;margin-bottom:12px;
   transition:border-color 0.2s;
 }
-.gate-input:focus{border-color:var(--green);}
+.gate-input:focus{border-color:var(--brand-dk);}
 .gate-btn{
-  width:100%;padding:12px;background:var(--green);color:#fff;
+  width:100%;padding:12px;background:var(--brand-dk);color:#fff;
   border:none;border-radius:10px;font-family:var(--sans);
   font-size:15px;font-weight:600;cursor:pointer;
   transition:background 0.2s;
 }
-.gate-btn:hover{background:var(--green-dk);}
+.gate-btn:hover{background:var(--brand-dk2);}
 .gate-err{font-size:13px;color:#C0392B;margin-top:8px;display:none;}
 
 /* ── NAV ── */
@@ -55,10 +55,10 @@ nav{
   padding:16px 40px;
   display:flex;align-items:center;justify-content:space-between;
 }
-.nav-wordmark{font-family:var(--serif);font-size:18px;color:var(--green);text-decoration:none;}
+.nav-wordmark{font-family:var(--serif);font-size:18px;color:var(--brand-dk);text-decoration:none;}
 .nav-links{display:flex;gap:28px;}
 .nav-links a{font-size:13px;color:var(--txt2);text-decoration:none;transition:color 0.2s;}
-.nav-links a:hover{color:var(--green);}
+.nav-links a:hover{color:var(--brand-dk);}
 
 /* ── SECTIONS ── */
 section{padding:80px 40px;}
@@ -67,7 +67,7 @@ section{padding:80px 40px;}
 
 .eyebrow{
   font-size:11px;font-weight:600;letter-spacing:0.12em;
-  text-transform:uppercase;color:var(--green);
+  text-transform:uppercase;color:var(--brand-dk);
   display:block;margin-bottom:16px;
 }
 
@@ -79,23 +79,23 @@ p:last-child{margin-bottom:0;}
 
 /* ── HERO ── */
 #hero{
-  background:var(--green);padding:100px 40px 80px;
+  background:var(--brand);padding:100px 40px 80px;
   text-align:center;
 }
-#hero h1{color:#fff;max-width:700px;margin:0 auto 24px;}
-#hero p{color:rgba(255,255,255,0.75);max-width:600px;margin:0 auto;}
+#hero h1{color:var(--brand-dk);max-width:700px;margin:0 auto 24px;}
+#hero p{color:rgba(18,56,56,0.7);max-width:600px;margin:0 auto;}
 .hero-options{
   display:flex;align-items:center;justify-content:center;
   gap:32px;margin:56px auto 0;flex-wrap:wrap;
 }
 .option-label{
   font-family:var(--serif);font-size:32px;
-  color:rgba(255,255,255,0.4);
+  color:rgba(18,56,56,0.35);
 }
-.option-label.active{color:#fff;}
+.option-label.active{color:var(--brand-dk);}
 .vs-text{
   font-size:13px;font-weight:600;letter-spacing:0.15em;
-  color:rgba(255,255,255,0.35);text-transform:uppercase;
+  color:rgba(18,56,56,0.4);text-transform:uppercase;
 }
 
 /* ── ALL OR NOTHING SECTION ── */
@@ -107,10 +107,10 @@ p:last-child{margin-bottom:0;}
 #neighbourhood{background:#fff;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
 .what-not-here{
-  background:var(--green-lt);border-radius:12px;
+  background:var(--brand-lt);border-radius:12px;
   padding:24px 28px;margin-top:24px;
 }
-.what-not-here p{font-size:15px;color:var(--green-dk);margin:0;}
+.what-not-here p{font-size:15px;color:var(--brand-dk);margin:0;}
 
 /* ── WHY ── */
 #why{background:var(--section-alt);}
@@ -124,7 +124,7 @@ p:last-child{margin-bottom:0;}
   padding:24px 20px;
 }
 .stat-num{
-  font-family:var(--serif);font-size:36px;color:var(--green);
+  font-family:var(--serif);font-size:36px;color:var(--brand-dk);
   line-height:1;margin-bottom:8px;
 }
 .stat-num.warn{color:#B85C00;}
@@ -158,26 +158,26 @@ p:last-child{margin-bottom:0;}
 }
 .p-status{
   display:flex;align-items:center;justify-content:space-between;
-  padding:10px 18px 6px;background:var(--green);flex-shrink:0;
+  padding:10px 18px 6px;background:var(--brand);flex-shrink:0;
 }
-.p-time{font-size:11px;font-weight:600;color:#fff;}
+.p-time{font-size:11px;font-weight:600;color:var(--brand-dk);}
 .p-icons{display:flex;gap:4px;align-items:center;}
 .p-sig{display:flex;align-items:flex-end;gap:1px;}
-.p-sig span{background:rgba(255,255,255,0.8);border-radius:1px;width:2px;}
+.p-sig span{background:rgba(18,56,56,0.7);border-radius:1px;width:2px;}
 .p-sig span:nth-child(1){height:4px;}
 .p-sig span:nth-child(2){height:7px;}
 .p-sig span:nth-child(3){height:10px;}
-.p-batt{width:17px;height:8px;border:1.5px solid rgba(255,255,255,0.6);border-radius:2px;position:relative;}
-.p-batt::after{content:'';position:absolute;left:1.5px;top:1px;bottom:1px;right:3px;background:rgba(255,255,255,0.8);border-radius:1px;}
+.p-batt{width:17px;height:8px;border:1.5px solid rgba(18,56,56,0.55);border-radius:2px;position:relative;}
+.p-batt::after{content:'';position:absolute;left:1.5px;top:1px;bottom:1px;right:3px;background:rgba(18,56,56,0.7);border-radius:1px;}
 .p-screen{background:#F2F4F2;height:420px;overflow:hidden;display:flex;flex-direction:column;}
 .p-hind{background:#fff;padding:6px 0 10px;display:flex;justify-content:center;border-top:0.5px solid #E0E5E0;}
 .p-hind-bar{width:80px;height:3px;background:#555;border-radius:3px;opacity:0.3;}
 
 /* Home screen */
-.p-greet{background:var(--green);padding:20px 16px 16px;flex-shrink:0;}
-.p-greet-sub{font-size:9px;color:rgba(255,255,255,0.65);letter-spacing:0.06em;text-transform:uppercase;}
-.p-greet-name{font-size:20px;font-weight:600;color:#fff;margin-top:2px;}
-.p-greet-date{font-size:9px;color:rgba(255,255,255,0.5);margin-top:4px;}
+.p-greet{background:var(--brand);padding:20px 16px 16px;flex-shrink:0;}
+.p-greet-sub{font-size:9px;color:rgba(18,56,56,0.7);letter-spacing:0.06em;text-transform:uppercase;}
+.p-greet-name{font-size:20px;font-weight:600;color:var(--brand-dk);margin-top:2px;}
+.p-greet-date{font-size:9px;color:rgba(18,56,56,0.55);margin-top:4px;}
 .p-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px;flex:1;align-content:center;}
 .p-tile{
   background:#fff;border-radius:14px;border:0.5px solid #E0E5E0;
@@ -193,9 +193,9 @@ p:last-child{margin-bottom:0;}
 .p-tlabel{font-size:10px;font-weight:500;color:#333;text-align:center;line-height:1.2;}
 
 /* Trusted sources screen */
-.p-s-header{background:var(--green);padding:12px 16px 14px;flex-shrink:0;}
-.p-s-back{font-size:9px;color:rgba(255,255,255,0.7);margin-bottom:6px;display:flex;align-items:center;gap:3px;}
-.p-s-title{font-size:15px;font-weight:600;color:#fff;}
+.p-s-header{background:var(--brand);padding:12px 16px 14px;flex-shrink:0;}
+.p-s-back{font-size:9px;color:rgba(18,56,56,0.7);margin-bottom:6px;display:flex;align-items:center;gap:3px;}
+.p-s-title{font-size:15px;font-weight:600;color:var(--brand-dk);}
 .p-app-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px;flex:1;align-content:center;}
 .p-app-tile{
   background:#fff;border-radius:14px;border:0.5px solid #E0E5E0;
@@ -205,9 +205,13 @@ p:last-child{margin-bottom:0;}
 .p-app-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .p-app-name{font-size:10px;font-weight:500;color:#333;text-align:center;line-height:1.3;}
 .icon-bou{background:#1B3055;}
-.icon-mgov{background:#C0002A;}
-.icon-vh{background:#1B6B35;}
-.icon-mst{background:#003C7E;}
+.icon-news{background:var(--brand);}
+
+.p-sg-btn{
+  width:100%;background:#fff;border:0.5px solid #E0E5E0;border-radius:10px;
+  padding:14px 16px;font-family:var(--sans);font-size:12px;font-weight:600;
+  color:var(--brand-dk);text-align:left;cursor:default;
+}
 
 /* Phone captions */
 .phone-caption{font-size:13px;color:var(--txt2);text-align:center;margin-top:16px;width:240px;}
@@ -242,10 +246,10 @@ p:last-child{margin-bottom:0;}
   stroke:currentColor;fill:none;
   stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
 }
-.demo-btn:hover{border-color:var(--green);color:var(--green);}
+.demo-btn:hover{border-color:var(--brand-dk);color:var(--brand-dk);}
 .demo-btn.active{
-  border-color:var(--green);background:var(--green-lt);
-  color:var(--green);font-weight:600;
+  border-color:var(--brand-dk);background:var(--brand-lt);
+  color:var(--brand-dk);font-weight:600;
 }
 .demo-btn.sleep-on{
   border-color:#333;background:#1A1A1A;color:#fff;
@@ -276,45 +280,59 @@ p:last-child{margin-bottom:0;}
 
 /* Dark mode for phone screens */
 .phone-shell.dark .p-screen{background:#0F1923;}
-.phone-shell.dark .p-greet{background:#0D2B1A;}
+.phone-shell.dark .p-greet{background:var(--brand-dk);}
+.phone-shell.dark .p-greet-sub{color:rgba(255,255,255,0.65);}
+.phone-shell.dark .p-greet-name{color:#fff;}
+.phone-shell.dark .p-greet-date{color:rgba(255,255,255,0.5);}
 .phone-shell.dark .p-tile{background:#1A2530;border-color:#253040;}
 .phone-shell.dark .p-tlabel{color:#C0D0C8;}
-.phone-shell.dark .p-s-header{background:#0D2B1A;}
+.phone-shell.dark .p-s-header{background:var(--brand-dk);}
+.phone-shell.dark .p-s-back{color:rgba(255,255,255,0.7);}
+.phone-shell.dark .p-s-title{color:#fff;}
 .phone-shell.dark .p-app-tile{background:#1A2530;border-color:#253040;}
 .phone-shell.dark .p-app-name{color:#C0D0C8;}
 .phone-shell.dark .p-hind{background:#14202E;border-color:#253040;}
 .phone-shell.dark .p-hind-bar{background:#888;}
 
-/* ── TASMANIAN STORY ── */
-#tasmania{background:var(--green);padding:80px 40px;}
-#tasmania .eyebrow{color:var(--yellow);}
-#tasmania h2{color:#fff;max-width:600px;margin-bottom:24px;}
-#tasmania p{color:rgba(255,255,255,0.75);}
-.tas-pull{
-  border-left:3px solid var(--yellow);padding-left:24px;
-  margin:40px 0;
-}
-.tas-pull p{
-  font-family:var(--serif);font-size:22px;
-  color:rgba(255,255,255,0.9);line-height:1.5;margin:0;
-}
-
-/* ── GET INVOLVED ── */
+/* ── GET INVOLVED / PARTNERS ── */
 #get-involved{background:#fff;text-align:center;}
 #get-involved h2{max-width:560px;margin:0 auto 24px;}
 #get-involved p{max-width:560px;margin:0 auto 16px;}
+.partner-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;margin:48px 0;text-align:left;
+}
+.partner-card{
+  background:var(--section-alt);border-radius:14px;border:0.5px solid var(--border);
+  padding:28px 24px;display:flex;flex-direction:column;gap:16px;
+}
+.partner-logo{height:44px;width:auto;object-fit:contain;align-self:flex-start;}
+.partner-logo-wide{height:40px;}
+.partner-tag{font-size:14px;color:var(--txt2);margin:0;line-height:1.6;}
+.partner-card-soon{
+  align-items:flex-start;justify-content:center;
+  border-style:dashed;background:#fff;
+}
+.partner-soon-badge{
+  font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--brand-dk);background:var(--brand-lt);
+  padding:4px 12px;border-radius:100px;
+}
+.get-involved-cta{max-width:560px;margin:0 auto;padding-top:8px;border-top:0.5px solid var(--border);}
+.get-involved-cta p{max-width:560px;margin:16px auto;}
+.get-involved-cta p:first-child{margin-top:32px;}
 .contact-btn{
   display:inline-block;margin-top:32px;
-  padding:16px 40px;background:var(--green);color:#fff;
+  padding:16px 40px;background:var(--brand-dk);color:#fff;
   border-radius:10px;font-size:16px;font-weight:600;
   text-decoration:none;font-family:var(--sans);
   transition:background 0.2s;
 }
-.contact-btn:hover{background:var(--green-dk);}
+.contact-btn:hover{background:var(--brand-dk2);}
 
 /* ── FOOTER ── */
 footer{
-  background:var(--green-dk);padding:32px 40px;
+  background:var(--brand-dk);padding:32px 40px;
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
 }
 .footer-wordmark{font-family:var(--serif);font-size:16px;color:rgba(255,255,255,0.6);}
@@ -351,7 +369,6 @@ footer{
     <a href="#neighbourhood">The Idea</a>
     <a href="#why">Why</a>
     <a href="#phone-exp">The Phone</a>
-    <a href="#tasmania">Tasmania</a>
     <a href="#get-involved">Get Involved</a>
   </div>
 </nav>
@@ -524,8 +541,8 @@ footer{
           Trusted Sources
         </button>
         <button class="demo-btn" onclick="demoScreen('vethub',this)">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-          Veterans Hub
+          <svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8L2 8v12a2 2 0 002 2z"/><line x1="9" y1="2" x2="9" y2="9"/><line x1="2" y1="9" x2="9" y2="9"/></svg>
+          Veterans News
         </button>
       </div>
 
@@ -570,31 +587,29 @@ footer{
             </div>
             <div class="p-app-grid">
               <div class="p-app-tile"><div class="p-app-icon icon-bou"><svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="#7BB3D8" stroke-width="2"/><circle cx="24" cy="24" r="12" fill="none" stroke="#5A9EC4" stroke-width="2"/><circle cx="24" cy="24" r="6" fill="none" stroke="#4A8FB5" stroke-width="2"/><circle cx="24" cy="24" r="2.5" fill="#D4AF37"/></svg></div><div class="p-app-name">Bank of Us</div></div>
-              <div class="p-app-tile"><div class="p-app-icon icon-mgov"><svg width="48" height="48" viewBox="0 0 48 48"><text x="24" y="26" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#fff">my</text><text x="24" y="38" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" font-weight="700" fill="#fff">Gov</text></svg></div><div class="p-app-name">myGov</div></div>
-              <div class="p-app-tile" onclick="demoScreenDirect('vethub')"><div class="p-app-icon icon-vh"><svg width="48" height="48" viewBox="0 0 48 48"><polygon points="24,8 38,18 38,36 24,44 10,36 10,18" fill="none" stroke="#EDB820" stroke-width="2"/><text x="24" y="31" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="700" fill="#EDB820">VH</text></svg></div><div class="p-app-name">Veterans Hub</div></div>
-              <div class="p-app-tile"><div class="p-app-icon icon-mst"><svg width="48" height="48" viewBox="0 0 48 48"><text x="24" y="22" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" font-weight="700" fill="#fff">my</text><text x="24" y="32" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-weight="600" fill="#fff">Service</text><text x="24" y="41" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="6.5" font-weight="600" fill="#6BAED6">TAS</text></svg></div><div class="p-app-name">myServiceTas</div></div>
+              <div class="p-app-tile"><div class="p-app-icon"><img src="assets/mygov-tile.png" alt="myGov" width="48" height="48" style="width:100%;height:100%;object-fit:cover;"></div><div class="p-app-name">myGov</div></div>
+              <div class="p-app-tile" onclick="demoScreenDirect('vethub')"><div class="p-app-icon icon-news"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand-dk)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8L2 8v12a2 2 0 002 2z"/><line x1="9" y1="2" x2="9" y2="9"/><line x1="2" y1="9" x2="9" y2="9"/></svg></div><div class="p-app-name">Veterans News</div></div>
+              <div class="p-app-tile"><div class="p-app-icon"><img src="assets/myservicetas-tile.png" alt="myServiceTas" width="48" height="48" style="width:100%;height:100%;object-fit:cover;"></div><div class="p-app-name">myServiceTas</div></div>
             </div>
           </div>
 
           <!-- VETERANS HUB SCREEN -->
           <div class="p-screen" id="ds-vethub" style="overflow-y:auto;">
-            <div style="background:var(--green);padding:12px 14px 0;flex-shrink:0;">
-              <div class="p-s-back" onclick="demoScreenDirect('trusted')" style="cursor:pointer;">&#8592; Trusted Sources</div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                <div style="width:28px;height:28px;border-radius:7px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);">VH</div>
-                <div><div style="font-size:13px;font-weight:600;color:#fff;">Veterans Hub</div><div style="font-size:9px;color:rgba(255,255,255,0.6);">Huon Valley Spoke</div></div>
+            <div style="background:var(--brand);padding:12px 14px 0;flex-shrink:0;">
+              <div class="p-s-back" onclick="demoScreenDirect('trusted')" style="cursor:pointer;color:rgba(18,56,56,0.7);">&#8592; Trusted Sources</div>
+              <div style="display:flex;align-items:center;height:16px;margin-bottom:12px;">
+                <div style="font-size:15px;font-weight:600;color:var(--brand-dk);">Veterans News</div>
               </div>
               <div style="display:flex;">
-                <div style="flex:1;padding:8px 2px;font-size:9px;font-weight:600;color:#fff;border-bottom:2px solid #fff;text-align:center;">Hub</div>
-                <div style="flex:1;padding:8px 2px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.5);text-align:center;">What's On</div>
-                <div style="flex:1;padding:8px 2px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.5);text-align:center;">Contact</div>
-                <div style="flex:1;padding:8px 2px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.5);text-align:center;">News</div>
+                <div style="flex:1;padding:8px 2px;font-size:9px;font-weight:600;color:var(--brand-dk);border-bottom:2px solid var(--brand-dk);text-align:center;">Support Groups</div>
+                <div style="flex:1;padding:8px 2px;font-size:9px;font-weight:600;color:rgba(18,56,56,0.5);text-align:center;">Contact</div>
+                <div style="flex:1;padding:8px 2px;font-size:9px;font-weight:600;color:rgba(18,56,56,0.5);text-align:center;">What's On</div>
               </div>
             </div>
             <div style="padding:10px;display:flex;flex-direction:column;gap:8px;background:#F2F4F2;flex:1;">
-              <div style="background:#fff;border-radius:10px;border:0.5px solid #E0E5E0;padding:12px;"><div style="font-size:9px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;">Location</div><div style="font-size:11px;color:#1A1A1A;line-height:1.5;"><strong>66 Main St</strong><br>Huonville, Tasmania 7109</div></div>
-              <div style="background:#fff;border-radius:10px;border:0.5px solid #E0E5E0;padding:12px;"><div style="font-size:9px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Opening Hours</div><div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:0.5px solid #E0E5E0;"><span style="font-size:10px;color:#555;">Mon to Fri</span><span style="font-size:10px;font-weight:500;color:#1A1A1A;">9am to 4pm</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;"><span style="font-size:10px;color:#555;">Saturday</span><span style="font-size:10px;font-weight:500;color:#1A1A1A;">10am to 1pm</span></div></div>
-              <div style="background:#fff;border-radius:10px;border:0.5px solid #E0E5E0;padding:12px;"><div style="font-size:9px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;">About</div><div style="font-size:11px;color:#555;line-height:1.5;">A place for veterans and their families. Drop in for a coffee, get help with DVA claims, or connect with others who understand.</div></div>
+              <button class="p-sg-btn">Buddy Up</button>
+              <button class="p-sg-btn">Open Arms</button>
+              <button class="p-sg-btn">Womens Veterans Network</button>
             </div>
           </div>
 
@@ -619,27 +634,30 @@ footer{
   </div>
 </section>
 
-<!-- TASMANIAN STORY -->
-<section id="tasmania">
-  <div class="container">
-    <span class="eyebrow">The Tasmanian story</span>
-    <h2>Tasmania is a natural starting point. Not because it's small, because it's connected.</h2>
-    <div class="tas-pull">
-      <p>If Veterans Phone works here, it works anywhere.</p>
-    </div>
-    <p>The veteran community here is tight-knit. The organisations that serve them know each other. The geography means digital access is not optional. For many veterans in regional and rural Tasmania, the phone is the primary link to DVA, to health services, to family.</p>
-    <p>Tasmania gives us the proof of concept, the relationships, and the community trust needed to take it further. We're already in conversation with key organisations. The interest is real. What's needed now is the coalition to build it properly.</p>
-  </div>
-</section>
-
 <!-- GET INVOLVED -->
 <section id="get-involved">
-  <div class="container">
-    <span class="eyebrow">Get involved</span>
+  <div class="container-wide">
+    <span class="eyebrow">Partners &amp; get involved</span>
     <h2>Veterans Phone needs partners, not just funders.</h2>
-    <p>We're looking for organisations and individuals who understand the problem and want to be part of building the solution. That includes community organisations, researchers, advocates, and people who work with veterans every day.</p>
-    <p>If that's you, we'd like to talk.</p>
-    <a class="contact-btn" href="mailto:info@everydaytech.com.au">Get in touch</a>
+    <div class="partner-grid">
+      <div class="partner-card">
+        <img src="assets/everyday-technologist-logo.jpg" alt="The Everyday Technologist" class="partner-logo partner-logo-wide">
+        <p class="partner-tag">Connecting Communities, Technology and Industry.</p>
+      </div>
+      <div class="partner-card">
+        <img src="assets/utas-logo.svg" alt="University of Tasmania" class="partner-logo">
+        <p class="partner-tag">VetPhone is a Capstone Project for the University of Tasmania in Semester 2, 2026. Proudly connecting with the Tasmanian community to develop technology solutions that make a difference.</p>
+      </div>
+      <div class="partner-card partner-card-soon">
+        <div class="partner-soon-badge">Coming soon</div>
+        <p class="partner-tag">Technology Partners to be announced soon.</p>
+      </div>
+    </div>
+    <div class="get-involved-cta">
+      <p>We're looking for organisations and individuals who understand the problem and want to be part of building the solution. That includes community organisations, researchers, advocates, and people who work with veterans every day.</p>
+      <p>If that's you, we'd like to talk.</p>
+      <a class="contact-btn" href="mailto:hello@veteransphone.com.au">Get in touch</a>
+    </div>
   </div>
 </section>
 
